@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '!a2@bf*#*!lw%=%+y-#63+hq^0o^bcbq@0lo^#h0rwx_7xz+7s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -78,7 +78,12 @@ WSGI_APPLICATION = 'nahor.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'rohanban_nahor_database',
+        'USER': 'rohanban_rohan', 
+        'PASSWORD': 'da5ma549x',
+        'HOST': 'localhost', 
+        'PORT': '5432',
     }
 }
 
@@ -124,3 +129,6 @@ STATIC_URL = '/static/'
 GRAPHENE = {
     'SCHEMA': 'nahor.schema.schema'
 }
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
