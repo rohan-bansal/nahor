@@ -28,9 +28,8 @@ def home():
 
         url_identifier = hashify(url)
         if Shortify.query.filter_by(hash_identifier=url_identifier).first() == None:
-            # db.session.add(Shortify(hash_identifier=url_identifier, original_url = url))
-            # db.session.commit()
-            pass
+            db.session.add(Shortify(hash_identifier=url_identifier, original_url = url))
+            db.session.commit()
 
         return render_template('index.html', short_url = host + url_identifier)
         
