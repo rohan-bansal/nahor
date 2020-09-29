@@ -1,100 +1,43 @@
 from flask import Flask, request, render_template, redirect, Blueprint
-from math import floor
-from sqlite3 import OperationalError
-import string
-import sqlite3
-from urllib.parse import urlparse
-from string import ascii_lowercase
-from string import ascii_uppercase
+from . import db
+from .models import Shortify
 import base64, hashlib
+from urllib.parse import urlparse
 
 routes = Blueprint('routes', __name__)
 
-str_encode = str.encode
 host = 'http://localhost:5000/'
 
 
-def table_check():
-    create_table = """
-        CREATE TABLE WEB_URL(
-        ID INT PRIMARY KEY AUTOINCREMENT,
-        URL TEXT NOT NULL
-        );
-        """
-    with sqlite3.connect('urls.db') as conn:
-        cursor = conn.cursor()
-        try:
-            cursor.execute(create_table)
-        except OperationalError:
-            pass
-
-
-def toBase62(num, b=62):
-    if b <= 0 or b > 62:
-        return 0
-    base = string.digits + ascii_lowercase + ascii_uppercase
-    r = num % b
-    res = base[r]
-    q = floor(num / b)
-    while q:
-        r = q % b
-        q = floor(q / b)
-        res = base[int(r)] + res
-    return res
-
-def hashify(value):
-    return(hashlib.md5(value.encode('utf-8')).hexdigest())[:5]
-
-
-def toBase10(num, b=62):
-    base = string.digits + ascii_lowercase + ascii_uppercase
-    limit = len(num)
-    res = 0
-    for i in range(limit):
-        res = b * res + base.find(num[i])
-    return res
+def hashify(value, digits=5):
+    return(hashlib.md5(value.encode('utf-8')).hexdigest())[:digits]
 
 
 @routes.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
-        original_url = str_encode(request.form.get('url'))
+        original_url = request.form.get('url')
         if urlparse(original_url).scheme == '':
             url = 'http://' + original_url
         else:
             url = original_url
-        with sqlite3.connect('urls.db') as conn:
-            cursor = conn.cursor()
-            res = cursor.execute(
-                'INSERT INTO WEB_URL (URL) VALUES (?)',
-                [base64.urlsafe_b64encode(url)]
-            )
 
-            conn.commit()
+        url_identifier = hashify(url)
+        if Shortify.query.filter_by(hash_identifier=url_identifier).first() == None:
+            db.session.add(Shortify(hash_identifier=url_identifier, original_url = url))
+            db.session.commit()
 
-            encoded_string = toBase62(res.lastrowid)
-
-        return render_template('home.html', short_url=host + encoded_string)
+        return render_template('home.html', short_url = host + url_identifier)
         
     return render_template('home.html')
 
 
 @routes.route('/<short_url>')
 def redirect_short_url(short_url):
-    decoded = toBase10(short_url)
-    url = host  # fallback if no URL is found
+    url = host
 
-    try: 
-        with sqlite3.connect('urls.db') as conn:
-            cursor = conn.cursor()
-            res = cursor.execute('SELECT URL FROM WEB_URL WHERE ID=?', [decoded])
-            try:
-                short = res.fetchone()
-                if short is not None:
-                    url = base64.urlsafe_b64decode(short[0])
-            except Exception as e:
-                print(e)
-        return redirect(url)
-
-    except OverflowError as e:
-        print(str(e))
+    var = Shortify.query.filter_by(hash_identifier=short_url).first()
+    if var is not None:
+        url = var.original_url
+    
+    return redirect(url)

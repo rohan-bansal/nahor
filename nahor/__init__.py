@@ -13,7 +13,5 @@ db.init_app(app)
 from .models import Shortify
 
 from .routes import routes as route_blueprint
-from .routes import table_check
 
 app.register_blueprint(route_blueprint)
-table_check()
