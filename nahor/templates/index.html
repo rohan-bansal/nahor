@@ -13,7 +13,10 @@
 
      <link rel="stylesheet" href="/static/css/bootstrap.min.css">
      <link rel="stylesheet" href="/static/css/font-awesome.min.css">
-
+     <link
+     rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+     />
      <link rel="stylesheet" href="/static/css/templatemo-style.css">
 
 </head>
@@ -34,15 +37,28 @@
                                   <button type="submit" class="form-control"><i class="fa fa-globe"></i></button>
                                 </form>
                               </div>
+                              <h4 style="color: gainsboro; margin-top: 3%;" class="animate__animated animate__delay-2s animate__fadeInUp">"Nahor" is "Rohan" backwards!</h4>
                               {% else %}
                               <h3 style="color: gainsboro; margin-top: 2%;">Shortened Link</h3>
-                              <h3><a style="color: white" href="{{short_url}}"> {{short_url}}</a></h3>
+                              <h3><a style="color: white" href="{{short_url}}" id="copyurl"> {{short_url}}</a></h3>
+                              <h5><a style="color: royalblue" href="#" onclick="this.style.color='green'; copyToClipboard('#copyurl')" id="copybutton">Copy</a></h5>
                               {% endif %}
                          </div>
                     </div>
-
                </div>
      </section>
+
+     <script>
+          function copyToClipboard(element) {
+               var $temp = $("<input>");
+               $("body").append($temp);
+               $temp.val($(element).text()).select();
+               document.execCommand("copy");
+               $temp.remove();
+
+               $("#copybutton").text('Copied!');
+          }
+     </script>
 
      <script src="/static/js/jquery.js"></script>
      <script src="/static/js/bootstrap.min.js"></script>
