@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 
 routes = Blueprint('routes', __name__)
 
-host = 'http://localhost:5000/'
+host = 'http://nahor.cf'
 
 
 def hashify(value, digits=5):
