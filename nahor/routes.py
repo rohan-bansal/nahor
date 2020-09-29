@@ -17,6 +17,10 @@ def hashify(value, digits=5):
 def home():
     if request.method == 'POST':
         original_url = request.form.get('url')
+        
+        if '.' not in original_url:
+            return render_template('index.html')
+
         if urlparse(original_url).scheme == '':
             url = 'http://' + original_url
         else:
