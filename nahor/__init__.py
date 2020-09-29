@@ -1,5 +1,6 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy, create_engine
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
 
 app = Flask(__name__)
 # db = SQLAlchemy(app)
