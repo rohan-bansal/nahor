@@ -17,7 +17,7 @@ def hashify(value, digits=5):
 def home():
     if request.method == 'POST':
         original_url = request.form.get('url')
-        
+
         if '.' not in original_url:
             return render_template('index.html')
 
@@ -28,8 +28,9 @@ def home():
 
         url_identifier = hashify(url)
         if Shortify.query.filter_by(hash_identifier=url_identifier).first() == None:
-            db.session.add(Shortify(hash_identifier=url_identifier, original_url = url))
-            db.session.commit()
+            # db.session.add(Shortify(hash_identifier=url_identifier, original_url = url))
+            # db.session.commit()
+            pass
 
         return render_template('index.html', short_url = host + url_identifier)
         
