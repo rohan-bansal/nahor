@@ -6,9 +6,9 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-django = "*"
-graphene-django = "*"
-django-cors-headers = "*"
+flask = "*"
+flask-sqlalchemy = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.8"
