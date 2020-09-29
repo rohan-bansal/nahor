@@ -27,9 +27,9 @@ def home():
             db.session.add(Shortify(hash_identifier=url_identifier, original_url = url))
             db.session.commit()
 
-        return render_template('home.html', short_url = host + url_identifier)
+        return render_template('index.html', short_url = host + url_identifier)
         
-    return render_template('home.html')
+    return render_template('index.html')
 
 
 @routes.route('/<short_url>')
