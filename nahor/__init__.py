@@ -1,8 +1,9 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, create_engine
 
 app = Flask(__name__)
-db = SQLAlchemy(app)
+# db = SQLAlchemy(app)
+db = create_engine("mysql://rohanban_rohan:s1lma549x@nahor.cf:3306/rohanban_nahorcf")
 
 # app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///urls.db'
