@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 
 routes = Blueprint('routes', __name__)
 
-host = 'http://nahor.cf/'
+host = 'http://127.0.0.1:5000/'
 
 
 def hashify(value, digits=5):
@@ -31,12 +31,30 @@ def home():
             db.session.add(Shortify(hash_identifier=url_identifier, original_url = url))
             db.session.commit()
 
-        return render_template('index.html', short_url = host + url_identifier)
-        
+        return render_template('index.html', short_url = host + 'short/' + url_identifier)
+
+    if request.method == 'GET':
+        original_url = request.args.get('url')
+        print(original_url)
+
+        if '.' not in original_url:
+            return render_template('index.html')
+
+        if urlparse(original_url).scheme == '':
+            url = 'http://' + original_url
+        else:
+            url = original_url
+
+        url_identifier = hashify(url)
+        if Shortify.query.filter_by(hash_identifier=url_identifier).first() == None:
+            db.session.add(Shortify(hash_identifier=url_identifier, original_url = url))
+            db.session.commit()
+
+        return render_template('index.html', short_url = host + 'short/' + url_identifier)
+
     return render_template('index.html')
 
-
-@routes.route('/<short_url>')
+@routes.route('/short/<short_url>')
 def redirect_short_url(short_url):
     url = host
 
