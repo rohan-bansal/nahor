@@ -1,0 +1,7 @@
+goat
+exe
+msi
+virus
+bug
+trojan
+worm

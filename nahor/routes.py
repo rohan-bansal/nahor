@@ -8,11 +8,15 @@ routes = Blueprint('routes', __name__)
 
 host = 'http://nahor.cf/'
 
+shady_words = []
+
 
 def hashify(value, digits=5):
     return(hashlib.md5(value.encode('utf-8')).hexdigest())[:digits]
 
 def shadify(value):
+    with open('shady_words.txt', 'r') as f:
+        shady_words.append(f.readlines())
     return value
 
 @routes.route('/', methods=['GET', 'POST'])
