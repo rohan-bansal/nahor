@@ -13,6 +13,7 @@
 
      <link rel="stylesheet" href="/static/css/bootstrap.min.css">
      <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+     <link rel="stylesheet" href="/static/css/radio.css">
      <link
      rel="stylesheet"
      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
@@ -37,6 +38,17 @@
                                   <button type="submit" class="form-control"><i class="fa fa-globe"></i></button>
                                 </form>
                               </div>
+                              <div class="radio-container">
+                                   <label class="radio">
+                                       <input type="radio" name="r" value="1" checked>
+                                       <span>Hashed</span>
+                                   </label>
+                                   <label class="radio">
+                                       <input type="radio" name="r" value="2">
+                                       <span>Shady</span>
+                                   </label>
+                               </div>
+
                               <h4 style="color: gainsboro; margin-top: 3%;" class="animate__animated animate__delay-2s animate__fadeInUp">"Nahor" is "Rohan" backwards!</h4>
                               {% else %}
                               <h3 style="color: gainsboro; margin-top: 2%;">Shortened Link</h3>
