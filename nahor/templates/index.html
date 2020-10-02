@@ -36,18 +36,20 @@
                                 <form action="" method="post">
                                   <input type="text" name="url" id="url" class="form-control" placeholder="Enter URL" required="">
                                   <button type="submit" class="form-control"><i class="fa fa-globe"></i></button>
+
+                                  <div class="radio-container">
+                                        <label class="radio">
+                                        <input type="radio" name="radio_option" value="hashed" checked>
+                                        <span>Shorter</span>
+                                        </label>
+                                        <label class="radio shade">
+                                        <input type="radio" name="radio_option" value="shady">
+                                        <span>Shadier</span>
+                                        </label>
+                                   </div>
                                 </form>
                               </div>
-                              <div class="radio-container">
-                                   <label class="radio">
-                                       <input type="radio" name="r" value="1" checked>
-                                       <span>Hashed</span>
-                                   </label>
-                                   <label class="radio">
-                                       <input type="radio" name="r" value="2">
-                                       <span>Shady</span>
-                                   </label>
-                               </div>
+
 
                               <h4 style="color: gainsboro; margin-top: 3%;" class="animate__animated animate__delay-2s animate__fadeInUp">"Nahor" is "Rohan" backwards!</h4>
                               {% else %}

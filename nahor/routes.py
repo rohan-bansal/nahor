@@ -12,11 +12,14 @@ host = 'http://nahor.cf/'
 def hashify(value, digits=5):
     return(hashlib.md5(value.encode('utf-8')).hexdigest())[:digits]
 
+def shadify(value):
+    return value
 
 @routes.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
         original_url = request.form.get('url')
+        method = request.form['radio_option']
 
         if '.' not in original_url:
             return render_template('index.html')
@@ -26,10 +29,14 @@ def home():
         else:
             url = original_url
 
-        url_identifier = hashify(url)
-        if Shortify.query.filter_by(hash_identifier=url_identifier).first() == None:
-            db.session.add(Shortify(hash_identifier=url_identifier, original_url = url))
-            db.session.commit()
+        if method == "hashed":
+            url_identifier = hashify(url)
+        else:
+            url_identifier = shadify(url)
+
+        # if Shortify.query.filter_by(hash_identifier=url_identifier).first() == None:
+        #     db.session.add(Shortify(hash_identifier=url_identifier, original_url = url))
+        #     db.session.commit()
 
         return render_template('index.html', short_url = host + url_identifier)
         
