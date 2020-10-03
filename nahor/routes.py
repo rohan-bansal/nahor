@@ -3,6 +3,7 @@ from . import db
 from .models import Shortify
 import base64, hashlib
 from urllib.parse import urlparse
+import random
 
 routes = Blueprint('routes', __name__)
 
@@ -10,18 +11,17 @@ host = 'http://nahor.cf/'
 
 shady_words_1 = ['goat', 'virus', 'malware', 'downloadram', 'paypal', 'password', 'keylog', 'killstick', 'tax', 'windows10']
 shady_words_2 = ['exe', 'msi', 'zip', 'tar', 'virzip', 'tar.gz', 'trojan', 'worm']
+random_symbols = ['~', '!', '=', '@']
 
 
 def hashify(value, digits=5):
     return(hashlib.md5(value.encode('utf-8')).hexdigest())[:digits]
 
 def shadify(value):
-    with open('nahor/shady_words.txt', 'r') as f:
-        shady_words = f.readlines()
-        for x in range(len(shady_words)):
-            shady_words[x] = shady_words[x].rstrip('\n')
-    print(shady_words)
-    return value
+    baseShady = ""
+    baseShady += random.choice(shady_words_1) + str(random.randint(1, 100)) + "-" + random.choice(shady_words_1) + random.choice(random_symbols) + random.choice(random_symbols)
+    baseShady += "." + random.choice(shady_words_2) + "." + random.choice(shady_words_2)
+    return baseShady
 
 @routes.route('/', methods=['GET', 'POST'])
 def home():
@@ -42,9 +42,9 @@ def home():
         else:
             url_identifier = shadify(url)
 
-        # if Shortify.query.filter_by(hash_identifier=url_identifier).first() == None:
-        #     db.session.add(Shortify(hash_identifier=url_identifier, original_url = url))
-        #     db.session.commit()
+        if Shortify.query.filter_by(hash_identifier=url_identifier).first() == None:
+            db.session.add(Shortify(hash_identifier=url_identifier, original_url = url))
+            db.session.commit()
 
         return render_template('index.html', short_url = host + url_identifier)
         
