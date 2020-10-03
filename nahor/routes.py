@@ -8,7 +8,8 @@ routes = Blueprint('routes', __name__)
 
 host = 'http://nahor.cf/'
 
-shady_words = []
+shady_words_1 = ['goat', 'virus', 'malware', 'downloadram', 'paypal', 'password', 'keylog', 'killstick', 'tax', 'windows10']
+shady_words_2 = ['exe', 'msi', 'zip', 'tar', 'virzip', 'tar.gz', 'trojan', 'worm']
 
 
 def hashify(value, digits=5):
@@ -17,8 +18,8 @@ def hashify(value, digits=5):
 def shadify(value):
     with open('nahor/shady_words.txt', 'r') as f:
         shady_words = f.readlines()
-        for word in shady_words:
-            word = word.rstrip()
+        for x in range(len(shady_words)):
+            shady_words[x] = shady_words[x].rstrip('\n')
     print(shady_words)
     return value
 
