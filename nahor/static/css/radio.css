@@ -56,3 +56,10 @@
 span {
     color: gainsboro;
 }
+.radio-container {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* vertical-align: middle; */
+}
